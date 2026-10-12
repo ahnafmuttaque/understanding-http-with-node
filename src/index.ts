@@ -2,6 +2,7 @@ import http from "node:http";
 import path from "node:path";
 import {
     GETGeneralHeaders,
+    GETRepresentationalHeaders,
     GETRequestHeaders,
 } from "./handlers/headers.route.js";
 
@@ -17,10 +18,18 @@ const server = http.createServer(async (req, res) => {
 
     if (req.url?.startsWith(API_VERSION_ONE)) {
         const url = req.url.slice(API_VERSION_ONE.length);
-        if (req.method === "GET" && url === "/headers/request-headers") {
-            GETRequestHeaders(req, res);
-        } else if (req.method === "GET" && url === "/headers/general-headers") {
-            GETGeneralHeaders(req, res);
+        console.log("url >>", url);
+        if (req.method === "GET") {
+            switch (url) {
+                case "/headers/request-headers":
+                    break;
+                case "/headers/general-headers":
+                    GETGeneralHeaders(req, res);
+                    break;
+                case "/headers/representational-headers":
+                    GETRepresentationalHeaders(req, res);
+                    break;
+            }
         }
     }
 });
