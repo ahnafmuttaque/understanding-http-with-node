@@ -4,6 +4,7 @@ import {
     GETGeneralHeaders,
     GETRepresentationalHeaders,
     GETRequestHeaders,
+    GETSecurityHeaders,
 } from "./handlers/headers.route.js";
 
 const CWD = process.cwd();
@@ -18,16 +19,19 @@ const server = http.createServer(async (req, res) => {
 
     if (req.url?.startsWith(API_VERSION_ONE)) {
         const url = req.url.slice(API_VERSION_ONE.length);
-        console.log("url >>", url);
         if (req.method === "GET") {
             switch (url) {
-                case "/headers/request-headers":
+                case "/headers/request":
+                    GETRequestHeaders(req, res);
                     break;
-                case "/headers/general-headers":
+                case "/headers/general":
                     GETGeneralHeaders(req, res);
                     break;
-                case "/headers/representational-headers":
+                case "/headers/representational":
                     GETRepresentationalHeaders(req, res);
+                    break;
+                case "/headers/security":
+                    GETSecurityHeaders(req, res);
                     break;
             }
         }

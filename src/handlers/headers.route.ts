@@ -42,3 +42,21 @@ export function GETRepresentationalHeaders(req: Request, res: Response) {
     };
     sendResponse(res, 200, content);
 }
+
+export function GETSecurityHeaders(req: Request, res: Response) {
+    const content = {
+        "Strict-Transport-Security": req.headers["strict-transport-security"],
+        Referer: req.headers.referer,
+        "Content-Security-Policy":
+            "Restricts and controls the resources (such as JavaScript, CSS, images, and fonts) that the browser is allowed to load for a given page, heavily mitigating XSS and data injection attacks",
+        "X-Content-Type-Options":
+            'Prevents the browser from guessing or "sniffing" a file\'s MIME type via the nosniff directive, ensuring it adheres strictly to the declared Content-Type',
+        "X-Frame-Options":
+            ": Controls whether a browser is allowed to render a page in a <frame>, <iframe>, or <object>, protecting users from clickjacking vectors (though largely superseded by CSP's frame-ancestors",
+        "Referer-Policy":
+            ": Controls whether a browser is allowed to render a page in a <frame>, <iframe>, or <object>, protecting users from clickjacking vectors (though largely superseded by CSP's frame-ancestors",
+        "Permission-Policy":
+            "Allows or disables specific browser APIs and powerful features on a page, such as access to the camera, microphone, geolocation, or payment gateways",
+    };
+    sendResponse(res, 200, content);
+}
