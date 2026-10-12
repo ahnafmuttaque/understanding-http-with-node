@@ -1,0 +1,17 @@
+{
+    "name": "understanding-http-with-node",
+    "version": "1.0.0",
+    "description": "a node server to understand the basics and the underlying concept of how http works.",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "start": "tsx --watch src/index.ts",
+        "build": "tsc",
+        "preview": "node dist/index.js"
+    },
+    "author": "ahnafmottaki",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^26.6.5"
+    }
+}
