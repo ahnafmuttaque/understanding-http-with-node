@@ -1,6 +1,9 @@
 import http from "node:http";
 import path from "node:path";
-import { GETRequestHeaders } from "./handlers/headers.route.js";
+import {
+    GETGeneralHeaders,
+    GETRequestHeaders,
+} from "./handlers/headers.route.js";
 
 const CWD = process.cwd();
 const ENVPATH = path.join(CWD, ".env");
@@ -16,6 +19,8 @@ const server = http.createServer(async (req, res) => {
         const url = req.url.slice(API_VERSION_ONE.length);
         if (req.method === "GET" && url === "/headers/request-headers") {
             GETRequestHeaders(req, res);
+        } else if (req.method === "GET" && url === "/headers/general-headers") {
+            GETGeneralHeaders(req, res);
         }
     }
 });

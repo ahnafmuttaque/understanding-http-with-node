@@ -1,28 +1,37 @@
-import type { IncomingMessage, ServerResponse } from "node:http";
+import type { Request, Response } from "../types/http.type.js";
+import { sendResponse } from "../utils.js";
 
-export function GETRequestHeaders(
-    req: IncomingMessage,
-    res: ServerResponse<IncomingMessage>,
-) {
+export function GETGeneralHeaders(req: Request, res: Response) {
+    const date = req.headers.datei || new Date().toISOString();
+    const cacheControl = req.headers["cache-control"];
+    const connection = req.headers.connection;
+
+    res.setHeader("Content-Type", "application/json");
+    res.statusCode = 200;
+    const response = {
+        Date: date,
+        "Cache-Control": cacheControl,
+        connection,
+    };
+    sendResponse(res, 200, response);
+}
+
+export function GETRequestHeaders(req: Request, res: Response) {
     // getting the request headers which are only present in req
     const userAgent = req.headers["user-agent"];
     const authorization = req.headers.authorization;
     const cookie = req.headers.cookie;
     const accept = req.headers.accept;
     // stringify the response body
-    const resJSON = JSON.stringify({
-        success: true,
-        data: {
-            "user-agent": userAgent,
-            authorization,
-            cookie,
-            accept,
-            hello: "myname is ahnaf",
-        },
-    });
+    const response = {
+        "user-agent": userAgent,
+        authorization: authorization ?? "no-authorization",
+        cookie: cookie ?? "no-cookie",
+        accept,
+    };
 
     // change response body to buffer
-    // const contentBuf = Buffer.from(resJSON, "utf-8");
+    // const contentBuf = Buffer.from(response, "utf-8");
     // get the bytelength
     // const contentLength = contentBuf.byteLength;
     // changing the encoding
@@ -33,11 +42,5 @@ export function GETRequestHeaders(
     // content length is set by default
     // dont' need to set it
     // res.setHeader("Content-Length", contentLength);
-
-    // set the status code
-    res.statusCode = 200;
-    // set the cookie
-    res.setHeader("cookie", "max-age=45;runtime=node");
-    // send the response
-    res.end(resJSON);
+    sendResponse(res, 200, response);
 }
