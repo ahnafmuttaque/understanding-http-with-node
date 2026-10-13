@@ -6,6 +6,7 @@ import {
     GETRequestHeaders,
     GETSecurityHeaders,
 } from "./handlers/headers.route.js";
+import { CorsSetup } from "./cors.js";
 
 const CWD = process.cwd();
 const ENVPATH = path.join(CWD, ".env");
@@ -14,6 +15,8 @@ process.loadEnvFile(ENVPATH);
 const PORT = process.env.PORT || 8000;
 
 const server = http.createServer(async (req, res) => {
+    // setting up cors
+    CorsSetup(res);
     // api versioning with "/api/v1"
     const API_VERSION_ONE = "/api/v1";
 
